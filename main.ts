@@ -11,7 +11,7 @@ function ButtonPressed () {
             . . . . .
             # # . # #
             . . . . .
-            . # # # .
+            . . . . .
             . . . . .
             `)
     }
@@ -26,41 +26,28 @@ function ButtonPressed () {
             `)
     }
     MaxSpeed = 255
-    HalfSpeed = 150
-    SlowSpeed = 30
+    HalfSpeed = 255
+    SlowSpeed = 0
 }
 // M1 Linkes Rad
-// M2 Rechts
+// M2 Rechtes Rad
 basic.forever(function () {
     ButtonPressed()
     if (Go == 1) {
-        // Beide weiss
+        // Beide Schwarz
         if (maqueen.readPatrol(maqueen.Patrol.PatrolLeft) == 0 && maqueen.readPatrol(maqueen.Patrol.PatrolRight) == 0) {
             maqueen.MotorRun(maqueen.aMotors.M1, maqueen.Dir.CW, MaxSpeed)
             maqueen.MotorRun(maqueen.aMotors.M2, maqueen.Dir.CW, MaxSpeed)
-        } else {
-            if (maqueen.readPatrol(maqueen.Patrol.PatrolLeft) == 0 && maqueen.readPatrol(maqueen.Patrol.PatrolRight) == 1) {
-                maqueen.MotorRun(maqueen.aMotors.M1, maqueen.Dir.CW, SlowSpeed)
-                maqueen.MotorRun(maqueen.aMotors.M2, maqueen.Dir.CW, HalfSpeed)
-                if (maqueen.readPatrol(maqueen.Patrol.PatrolLeft) == 1 && maqueen.readPatrol(maqueen.Patrol.PatrolRight) == 1) {
-                    maqueen.MotorRun(maqueen.aMotors.M1, maqueen.Dir.CW, SlowSpeed)
-                    maqueen.MotorRun(maqueen.aMotors.M2, maqueen.Dir.CW, MaxSpeed)
-                }
-            } else {
-                if (maqueen.readPatrol(maqueen.Patrol.PatrolLeft) == 1 && maqueen.readPatrol(maqueen.Patrol.PatrolRight) == 0) {
-                    maqueen.MotorRun(maqueen.aMotors.M1, maqueen.Dir.CW, HalfSpeed)
-                    maqueen.MotorRun(maqueen.aMotors.M2, maqueen.Dir.CW, SlowSpeed)
-                    if (maqueen.readPatrol(maqueen.Patrol.PatrolLeft) == 1 && maqueen.readPatrol(maqueen.Patrol.PatrolRight) == 1) {
-                        maqueen.MotorRun(maqueen.aMotors.M1, maqueen.Dir.CW, MaxSpeed)
-                        maqueen.MotorRun(maqueen.aMotors.M2, maqueen.Dir.CW, SlowSpeed)
-                    }
-                    if (maqueen.readPatrol(maqueen.Patrol.PatrolLeft) == 1 && maqueen.readPatrol(maqueen.Patrol.PatrolRight) == 0) {
-                        maqueen.MotorRun(maqueen.aMotors.M1, maqueen.Dir.CW, MaxSpeed)
-                    } else {
-                        maqueen.MotorRun(maqueen.aMotors.M2, maqueen.Dir.CW, 0)
-                    }
-                }
-            }
-        }
+        } 
+        // Linker Sensor Schwarz, rechtes Rad gibt Gas
+        if (maqueen.readPatrol(maqueen.Patrol.PatrolLeft) == 0 && maqueen.readPatrol(maqueen.Patrol.PatrolRight) == 1) {
+            maqueen.MotorRun(maqueen.aMotors.M1, maqueen.Dir.CW, SlowSpeed)
+            maqueen.MotorRun(maqueen.aMotors.M2, maqueen.Dir.CW, MaxSpeed)
+        } 
+        // Rechter Sensor Schwarz, linkes Rad gibt Gas
+        if (maqueen.readPatrol(maqueen.Patrol.PatrolLeft) == 1 && maqueen.readPatrol(maqueen.Patrol.PatrolRight) == 0) {
+            maqueen.MotorRun(maqueen.aMotors.M1, maqueen.Dir.CW, MaxSpeed)
+            maqueen.MotorRun(maqueen.aMotors.M2, maqueen.Dir.CW, SlowSpeed)
+        }        
     }
 })
